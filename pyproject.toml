@@ -1,0 +1,24 @@
+[project]
+name        = "tiny-bf-transformer"
+version     = "0.1.0"
+description = "Minimal encoder–decoder Transformer that learns to emit Brainfuck programs."
+requires-python = ">=3.10"
+
+# Runtime + quality‑of‑life deps.  Torch is pinned to the CUDA wheel index
+# declared further below.
+dependencies = [
+    "torch>=2.2.0",          # GPU wheel will be pulled from the cu121 index
+    "tqdm",
+    "numpy",
+    "matplotlib",
+]
+
+[tool.uv.sources]
+# Force torch to come only from the NVIDIA/CUDA wheels repo.
+torch = { index = "pytorch-cu121" }
+
+[[tool.uv.index]]
+name    = "pytorch-cu121"
+url     = "https://download.pytorch.org/whl/cu121"
+explicit = true         # nothing except packages explicitly pinned above is fetched here
+
