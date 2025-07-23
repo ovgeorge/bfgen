@@ -201,14 +201,6 @@ def eval_loop(
 
                 prog = prog_per_target[local_idx]
                 
-                if not run_cfg.no_exec:
-                        rec = {
-                            "bf": prog,
-                            "target": expected,
-                            "output": list(out),
-                        }
-                        json.dump(rec, log_fp)
-                        log_fp.write("\n")
 
                 try:
                     out = run_bf(prog, cfg=run_cfg, stats=stats)
@@ -219,7 +211,19 @@ def eval_loop(
                     if list(out) == expected:
                         valid += 1
                 except Exception:
+                    out = "Exception"
                     pass     # stats updated inside run_bf
+                    
+                
+                if not run_cfg.no_exec:
+                        rec = {
+                            "bf": prog,
+                            "target": expected,
+                            "output": list(out),
+                        }
+                        json.dump(rec, log_fp)
+                        log_fp.write("\n")
+
 
             bar.update(len(batch_pairs))
             bar.set_postfix(
